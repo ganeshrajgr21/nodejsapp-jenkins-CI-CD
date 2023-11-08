@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Build the Docker image
-docker build -d reactimage .
+docker build -t reactimage .
 
 docker-compose down || true
 docker-compose up -d 
