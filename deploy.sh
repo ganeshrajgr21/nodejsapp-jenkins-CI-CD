@@ -4,7 +4,7 @@ if [[ $GIT_BRANCH == "origin/main" ]]; then
 	  # Build your project
 	   ./build.sh
 
- 	    docker tag ganeshraj21/dev:reactapp
+ 	    docker tag reactapp ganeshraj21/dev
 	    docker login -u "ganeshraj21" -p "Ganesh@2198"
   	    docker push ganeshraj21/dev
    else  [[ $GIT_BRANCH == "origin/master" ]]
