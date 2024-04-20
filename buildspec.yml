@@ -1,24 +1,20 @@
 version: 0.2
-
+ 
 phases:
   install:
     runtime-versions:
-      nodejs: 18
-   
+        nodejs: 18
     commands:
-        # install npm
+        - echo Installing dependencies...
         - npm install
-       
+ 
   build:
     commands:
-        # run build script
+        - echo Build started on `date`
+        - echo Compiling the Node.js code...
         - npm run build
-     
+ 
 artifacts:
-  # include all files required to run the application
   files:
-    - public/**/*
-    - src/**/*
-    - package.json
-    - appspec.yml
-    - scripts/**/*
+    - '**/*'
+  discard-paths: yes
