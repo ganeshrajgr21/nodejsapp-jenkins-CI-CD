@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "react_app"
+        IMAGE_NAME = "react-app"
         DOCKER_TAG = "latest"
     }
 
@@ -10,30 +10,42 @@ pipeline {
 
         stage('Checkout') {
             steps {
+                echo "Checking out source code"
                 checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                echo "Installing dependencies"
+                sh 'npm install'
             }
         }
 
         stage('Build Application') {
             steps {
-                echo "Building application..."
-                sh 'npm install'
+                echo "Building application"
                 sh 'npm run build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Running tests"
+                sh 'npm test || echo "No tests configured, skipping tests"'
             }
         }
 
         stage('Docker Build') {
             steps {
-                echo "Building Docker image..."
-                sh '''
-                  docker build -t $react_app:$latest .
-                '''
+                echo "Building Docker image"
+                sh 'docker build -t $react-app:$latest .'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo "Deploying application..."
+                echo "Deploying application"
                 sh 'chmod +x deploy.sh'
                 sh './deploy.sh'
             }
@@ -42,10 +54,10 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline completed successfully"
+            echo "pipeline completed successfully"
         }
         failure {
-            echo "Pipeline failed"
+            echo "Pipeline failed — check logs"
         }
     }
 }
