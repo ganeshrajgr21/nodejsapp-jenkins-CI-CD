@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "node-nginx-app"
+        IMAGE_NAME = "react_app"
         DOCKER_TAG = "latest"
     }
 
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 echo "Building Docker image..."
                 sh '''
-                  docker build -t $IMAGE_NAME:$DOCKER_TAG .
+                  docker build -t $react_app:$latest .
                 '''
             }
         }
