@@ -1,13 +1,51 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage('build') {
-      steps {
-             sh 'chmod +x deploy.sh'
-             sh './deploy.sh'
-      
+    environment {
+        IMAGE_NAME = "node-nginx-app"
+        DOCKER_TAG = "latest"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
         }
-     }   
-   }       
+
+        stage('Build Application') {
+            steps {
+                echo "Building application..."
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                echo "Building Docker image..."
+                sh '''
+                  docker build -t $IMAGE_NAME:$DOCKER_TAG .
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying application..."
+                sh 'chmod +x deploy.sh'
+                sh './deploy.sh'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline completed successfully"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+    }
 }
