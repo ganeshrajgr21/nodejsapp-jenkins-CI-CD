@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   web:
-    image: node-nginx-app:latest
-    container_name: node_nginx_app
+    image: react-app:latest
+    container_name: react-node-app
     ports:
       - "80:80"
     restart: unless-stopped
