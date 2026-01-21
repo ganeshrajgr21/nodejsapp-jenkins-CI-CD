@@ -5,8 +5,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-# Production stage
-FROM nginx:alpine
+FROM nginx:alpine 
 # Remove default nginx config
 RUN rm /etc/nginx/conf.d/default.conf
 # Copy custom nginx config
